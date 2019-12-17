@@ -104,7 +104,7 @@ export function getElementRef<T>(
           return queryList.first;
         }
       }),
-      filter(Boolean),
+      filter<ElementRef<T>>(Boolean),
     );
 }
 

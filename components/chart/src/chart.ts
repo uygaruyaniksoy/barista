@@ -57,6 +57,8 @@ import {
   IndividualSeriesOptions,
   Options as HighchartsOptions,
   setOptions,
+  ColumnChart,
+  LineChart,
 } from 'highcharts';
 import { merge as lodashMerge } from 'lodash';
 import {
@@ -114,6 +116,28 @@ export type DtChartOptions = HighchartsOptions & {
   series?: undefined;
   tooltip?: { shared: boolean };
   interpolateGaps?: boolean;
+  plotOptions?: {
+    column?: ColumnChart & {
+      clip?: boolean;
+      states?: {
+        hover?: {
+          borderWidth?: number;
+        };
+        select?: {
+          color?: string;
+        };
+      };
+    };
+    line?: LineChart & {
+      marker?: {
+        states?: {
+          hover?: {
+            halo?: boolean;
+          };
+        };
+      };
+    };
+  };
 };
 export type DtChartSeries = IndividualSeriesOptions;
 
