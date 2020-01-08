@@ -111,6 +111,7 @@ jobs:
 # - install npm dependencies
   install:
     <<: *defaults
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -192,7 +193,7 @@ jobs:
       - run:
           name: Generate examples for the demo application
           command: npm run examples-tools
-      - run: yarn affected:build ${AFFECTED_ARGS} --configuration=production --exclude=examples-tools
+      - run: yarn nx affected:build ${AFFECTED_ARGS} --configuration=production --parallel --exclude=examples-tools
       - store_artifacts:
           path: dist/components
       - persist_to_workspace:
@@ -203,12 +204,13 @@ jobs:
 # - run unit tests
   unit-test:
     <<: *defaults
+    resource_class: xlarge
     steps:
       - attach_workspace:
           at: ~/barista
       - run:
           <<: *set_env
-      - run: yarn affected:test ${AFFECTED_ARGS} --parallel --runInBand
+      - run: yarn nx affected:test ${AFFECTED_ARGS} --parallel --runInBand
       - store_test_results:
           path: dist/test-results
       - store_artifacts:
