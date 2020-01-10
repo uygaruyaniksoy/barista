@@ -19,4 +19,10 @@ export interface TypescriptBuilderOptions {
   tsConfig: string;
   /** The output directory for the compiled files */
   outDir?: string;
+
+  entry: {
+    [key: string]: string;
+  };
+
+  maxWorkers?: number;
 }

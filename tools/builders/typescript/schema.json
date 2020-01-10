@@ -12,6 +12,6 @@
       "description": "The output directory for the compiled files"
     }
   },
-  "additionalProperties": false,
+  "additionalProperties": true,
   "required": []
 }
