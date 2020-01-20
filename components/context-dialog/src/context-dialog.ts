@@ -21,6 +21,7 @@ import {
   ConnectedPosition,
   Overlay,
   OverlayRef,
+  OverlayConfig,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { DOCUMENT } from '@angular/common';
@@ -42,6 +43,7 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
   isDevMode,
+  InjectionToken,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -59,49 +61,40 @@ import {
 import { DtContextDialogTrigger } from './context-dialog-trigger';
 
 const LOG: DtLogger = DtLoggerFactory.create('ContextDialog');
-const DT_CONTEXT_DIALOG_OVERLAY_CONFIG = 8;
 const OVERLAY_POSITIONS: ConnectedPosition[] = [
   {
-    originX: 'start',
-    originY: 'top',
-    overlayX: 'end',
-    overlayY: 'top',
-    offsetX: -DT_CONTEXT_DIALOG_OVERLAY_CONFIG,
-  },
-  {
-    originX: 'start',
-    originY: 'bottom',
-    overlayX: 'end',
-    overlayY: 'bottom',
-    offsetX: -DT_CONTEXT_DIALOG_OVERLAY_CONFIG,
-  },
-  {
-    originX: 'start',
-    originY: 'center',
-    overlayX: 'end',
-    overlayY: 'center',
-    offsetX: -DT_CONTEXT_DIALOG_OVERLAY_CONFIG,
-  },
-  {
     originX: 'end',
     originY: 'top',
-    overlayX: 'start',
+    overlayX: 'end',
     overlayY: 'top',
-    offsetX: DT_CONTEXT_DIALOG_OVERLAY_CONFIG,
+    panelClass: 'dt-context-dialog-panel-left',
   },
   {
     originX: 'end',
     originY: 'bottom',
-    overlayX: 'start',
+    overlayX: 'end',
     overlayY: 'bottom',
-    offsetX: DT_CONTEXT_DIALOG_OVERLAY_CONFIG,
+    panelClass: [
+      'dt-context-dialog-panel-left',
+      'dt-context-dialog-panel-bottom',
+    ],
   },
   {
-    originX: 'end',
-    originY: 'center',
+    originX: 'start',
+    originY: 'top',
     overlayX: 'start',
-    overlayY: 'center',
-    offsetX: DT_CONTEXT_DIALOG_OVERLAY_CONFIG,
+    overlayY: 'top',
+    panelClass: 'dt-context-dialog-panel-right',
+  },
+  {
+    originX: 'start',
+    originY: 'bottom',
+    overlayX: 'start',
+    overlayY: 'bottom',
+    panelClass: [
+      'dt-context-dialog-panel-right',
+      'dt-context-dialog-panel-bottom',
+    ],
   },
 ];
 
@@ -109,6 +102,10 @@ const OVERLAY_POSITIONS: ConnectedPosition[] = [
 export class DtContextDialogBase {}
 export const _DtContextDialogMixinBase = mixinTabIndex(
   mixinDisabled(DtContextDialogBase),
+);
+
+export const DT_CONTEXT_DIALOG_CONFIG = new InjectionToken<OverlayConfig>(
+  'dt-context-dialog-config',
 );
 
 @Component({
@@ -147,11 +144,7 @@ export class DtContextDialog extends _DtContextDialogMixinBase
   /** Aria reference to a label describing the context-dialog. */
   @Input('aria-labelledby') ariaLabelledBy: string;
 
-  /**
-   * Aria label of the context-dialog's close button.
-   * @deprecated Made obsolete without the closing button
-   * @breaking-change To be removed with 6.0.0.
-   */
+  /** Aria label of the context-dialog's close button. */
   @Input('aria-label-close-button') ariaLabelClose: string;
 
   /** The custom class to add to the overlay panel element. Can be used to scope styling within the overlay */
@@ -200,6 +193,9 @@ export class DtContextDialog extends _DtContextDialogMixinBase
     @Attribute('tabindex') tabIndex: string,
     // tslint:disable-next-line: no-any
     @Optional() @Inject(DOCUMENT) private _document: any,
+    @Optional()
+    @Inject(DT_CONTEXT_DIALOG_CONFIG)
+    private _userConfig?: OverlayConfig,
   ) {
     super();
     this.tabIndex = parseInt(tabIndex, 10) || 0;
@@ -303,12 +299,17 @@ export class DtContextDialog extends _DtContextDialogMixinBase
       .withGrowAfterOpen(false)
       .withViewportMargin(0)
       .withLockedPosition(false);
-    this._overlayRef = this._overlay.create({
-      positionStrategy,
-      scrollStrategy: this._overlay.scrollStrategies.reposition(),
-      backdropClass: 'cdk-overlay-transparent-backdrop',
-      hasBackdrop: true,
-    });
+
+    const overlayConfig = this._userConfig
+      ? this._userConfig
+      : {
+          positionStrategy,
+          scrollStrategy: this._overlay.scrollStrategies.reposition(),
+          backdropClass: 'cdk-overlay-transparent-backdrop',
+          hasBackdrop: true,
+        };
+
+    this._overlayRef = this._overlay.create(overlayConfig);
     this._overlayRef
       .backdropClick()
       .pipe(takeUntil(this._destroy))
