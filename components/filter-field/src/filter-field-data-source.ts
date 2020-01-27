@@ -29,76 +29,64 @@ export abstract class DtFilterFieldDataSource<T> {
   abstract disconnect(): void;
 
   /** Whether the provided data object can be transformed into an DtAutocompleteDef. */
-  // tslint:disable-next-line: no-any
-  abstract isAutocomplete(data: any): boolean;
+  abstract isAutocomplete(data: T): boolean;
 
   /** Whether the provided data object can be transformed into an DtOptionDef. */
-  // tslint:disable-next-line: no-any
-  abstract isOption(data: any): boolean;
+  abstract isOption(data: T): boolean;
 
   /** Whether the provided data object can be transformed into an DtGroupDef. */
-  // tslint:disable-next-line: no-any
-  abstract isGroup(data: any): boolean;
+  abstract isGroup(data: T): boolean;
 
   /** Whether the provided data object can be transformed into an DtFreeTextDef. */
-  // tslint:disable-next-line: no-any
-  abstract isFreeText(data: any): boolean;
+  abstract isFreeText(data: T): boolean;
 
   /** Whether the provided data object can be transformed into an DtRangeDef. */
-  // tslint:disable-next-line: no-any
-  abstract isRange(data: any): boolean;
+  abstract isRange(data: T): boolean;
 
   /** Transforms the provided data into a DtNodeDef which contains a DtAutocompleteDef. */
   abstract transformAutocomplete(
-    // tslint:disable-next-line: no-any
-    data: any,
+    data: T,
     parent: DtNodeDef<T> | null,
     existingDef: DtNodeDef<T> | null,
   ): DtNodeDef<T>;
 
   /** Transforms the provided data into a DtNodeDef which contains a DtOptionDef. */
   abstract transformOption(
-    // tslint:disable-next-line: no-any
-    data: any,
+    data: T,
     parentAutocompleteOrOption: DtNodeDef<T> | null,
     existingDef: DtNodeDef<T> | null,
   ): DtNodeDef<T>;
 
   /** Transforms the provided data into a DtNodeDef which contains a DtGroupDef. */
   abstract transformGroup(
-    // tslint:disable-next-line: no-any
-    data: any,
+    data: T,
     parentAutocomplete: DtNodeDef<T> | null,
     existingDef: DtNodeDef<T> | null,
   ): DtNodeDef<T>;
 
   /** Transforms the provided data into a DtNodeDef which contains a DtFreeTextDef. */
   abstract transformFreeText(
-    // tslint:disable-next-line: no-any
-    data: any,
+    data: T,
     parent: DtNodeDef<T> | null,
     existingDef: DtNodeDef<T> | null,
   ): DtNodeDef<T>;
 
   /** Transforms the provided data into a DtNodeDef which contains a DtRangeDef. */
   abstract transformRange(
-    // tslint:disable-next-line: no-any
-    data: any,
+    data: T,
     parent: DtNodeDef<T> | null,
     existingDef: DtNodeDef<T> | null,
   ): DtNodeDef<T>;
 
   /** Transforms the provided data into a DtNodeDef. */
   abstract transformObject(
-    // tslint:disable-next-line: no-any
-    data: any | null,
+    data: T | null,
     parent: DtNodeDef<T> | null,
   ): DtNodeDef<T> | null;
 
   /** Transforms the provided list of data objects into an array of DtNodeDefs. */
   abstract transformList(
-    // tslint:disable-next-line: no-any
-    list: any[],
+    list: T[],
     parent: DtNodeDef<T> | null,
   ): DtNodeDef<T>[];
 }

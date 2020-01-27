@@ -378,7 +378,7 @@ export function findFilterValuesForSources<T>(
           return null;
         }
       } else {
-        foundValues.push(def);
+        foundValues.push(def as _DtAutocompleteValue);
         if (isLastSource) {
           return foundValues;
         }

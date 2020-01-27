@@ -183,15 +183,15 @@ export class DtFilterField<T> implements AfterViewInit, OnDestroy, OnChanges {
 
   /** The data source instance that should be connected to the filter field. */
   @Input()
-  get dataSource(): DtFilterFieldDataSource {
+  get dataSource(): DtFilterFieldDataSource<T> {
     return this._dataSource;
   }
-  set dataSource(dataSource: DtFilterFieldDataSource) {
+  set dataSource(dataSource: DtFilterFieldDataSource<T>) {
     if (this._dataSource !== dataSource) {
       this._switchDataSource(dataSource);
     }
   }
-  private _dataSource: DtFilterFieldDataSource;
+  private _dataSource: DtFilterFieldDataSource<T>;
   private _dataSubscription: Subscription | null;
   private _stateChanges = new Subject<void>();
   private _outsideClickSubscription: Subscription | null;
@@ -584,7 +584,7 @@ export class DtFilterField<T> implements AfterViewInit, OnDestroy, OnChanges {
         this._editModeStashedValue = removed;
         this._listenForEditModeCancellation();
         this._currentFilterValues = event.data.filterValues;
-        this._currentDef = value;
+        this._currentDef = value as _DtAutocompleteValue;
 
         this._updateControl();
         this._updateLoading();
@@ -959,7 +959,7 @@ export class DtFilterField<T> implements AfterViewInit, OnDestroy, OnChanges {
    * Takes a new data source and switches the filter date to the provided one.
    * Handles all the disconnecting and data switching.
    */
-  private _switchDataSource(dataSource: DtFilterFieldDataSource): void {
+  private _switchDataSource(dataSource: DtFilterFieldDataSource<T>): void {
     if (this._dataSource) {
       this._dataSource.disconnect();
     }
