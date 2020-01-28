@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build": "ng build",
+    "now-build": "npm run examples-tools && ng build barista --prod && npm run barista-tools",
     "dev": "ng serve dev",
     "test": "npm run affected:test -- --parallel",
     "lint": "nx workspace-lint && npm run affected:lint -- --parallel && npm run affected:stylelint -- --parallel",

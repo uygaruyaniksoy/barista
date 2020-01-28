@@ -443,7 +443,7 @@
               "extractCss": true,
               "namedChunks": false,
               "vendorChunk": false,
-              "statsJson": true,
+              "statsJson": false,
               "aot": true,
               "budgets": [
                 {
