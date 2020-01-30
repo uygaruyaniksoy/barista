@@ -1,0 +1,15 @@
+<svg [attr.viewBox]="_viewBox" [attr.width]="_width">
+  <svg:path
+    *ngIf="_hasBackground"
+    fill="#f8f8f8"
+    [attr.d]="_backgroundPath"
+  ></svg:path>
+  <svg:g *ngFor="let series of _renderData">
+    <svg:path
+      class="dt-radial-chart-series"
+      [attr.d]="series.path"
+      [attr.fill]="series.color"
+      [attr.aria-label]="series.ariaLabel"
+    ></svg:path>
+  </svg:g>
+</svg>

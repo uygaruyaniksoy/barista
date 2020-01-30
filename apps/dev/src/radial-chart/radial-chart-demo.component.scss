@@ -1,0 +1,21 @@
+button {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+* + button {
+  margin-top: 8px;
+}
+
+.radial-chart-wrapper {
+  max-width: 700px;
+}
+
+.flex-wrapper {
+  display: flex;
+}
+
+.test-data {
+  width: 300px;
+  flex-basis: 300px;
+}
