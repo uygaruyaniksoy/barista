@@ -96,9 +96,6 @@ export class DtTagList implements AfterContentInit, OnDestroy {
   /** @internal Whether user wants all tags to be shown */
   _showAllTags = false;
 
-  /** @internal Whether the x more button should be displayed */
-  _displayMoreBtn = false;
-
   constructor(
     private _viewportResizer: DtViewportResizer,
     private _changeDetectorRef: ChangeDetectorRef,
@@ -128,7 +125,6 @@ export class DtTagList implements AfterContentInit, OnDestroy {
               this._isOneLine = true;
             }
           }
-          this._toDisplayMoreButton();
           this._changeDetectorRef.markForCheck();
         });
       this._tagAddElements.changes
@@ -204,12 +200,8 @@ export class DtTagList implements AfterContentInit, OnDestroy {
   /**
    * @internal evaluates whether to display the x more button
    */
-  _toDisplayMoreButton(): void {
-    if (!this._isOneLine && !this._showAllTags && this._hiddenTagCount > 0) {
-      this._displayMoreBtn = true;
-    } else {
-      this._displayMoreBtn = false;
-    }
+  _toDisplayMoreButton(): boolean {
+    return !this._isOneLine && !this._showAllTags && this._hiddenTagCount > 0;
   }
 }
 
