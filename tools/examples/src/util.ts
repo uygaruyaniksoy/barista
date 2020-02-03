@@ -29,9 +29,11 @@ export async function transformAndWriteTemplate(
   templateFile: string,
   outFile: string,
 ): Promise<string> {
-  let source = (await fs.readFile(templateFile, {
-    encoding: 'utf-8',
-  })).toString();
+  let source = (
+    await fs.readFile(templateFile, {
+      encoding: 'utf-8',
+    })
+  ).toString();
 
   source = transformFn(source);
 
