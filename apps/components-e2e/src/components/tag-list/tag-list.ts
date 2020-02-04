@@ -19,6 +19,5 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'dt-e2e-tag-list',
   templateUrl: 'tag-list.html',
-  styleUrls: ['tag-list.scss'],
 })
 export class DtE2ETagList {}
