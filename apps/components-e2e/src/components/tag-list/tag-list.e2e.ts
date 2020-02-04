@@ -18,8 +18,7 @@ import { Selector } from 'testcafe';
 
 const tagList = Selector('#tagList');
 
-//! REMOVE
-fixture.only('TagList').page('http://localhost:4200/tag/tag-list');
+fixture('TagList').page('http://localhost:4200/tag/tag-list');
 
 test("should not display '0 More...'", async (testController: TestController) => {
   await testController
