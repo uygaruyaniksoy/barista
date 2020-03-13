@@ -418,6 +418,9 @@ export class DtFilterField<T>
   /** A subject that emits every time the input is reset */
   private _inputReset$ = new Subject<void>();
 
+  /** A subject that emits every time the input is submitted, usually by hitting the enter key. */
+  private _inputSubmitted$ = new Subject<void>();
+
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,
     private _zone: NgZone,
@@ -499,6 +502,7 @@ export class DtFilterField<T>
         debounceTime(DT_FILTER_FIELD_TYPING_DEBOUNCE),
       ),
       this._inputReset$,
+      this._inputSubmitted$,
     )
       .pipe(
         map(() => this._inputEl.nativeElement.value),
@@ -867,6 +871,7 @@ export class DtFilterField<T>
    * Usually called when the user hits enter in the input field when a free text is set.
    */
   private _handleFreeTextSubmitted(): void {
+    this._inputSubmitted$.next();
     const sources = this._peekCurrentFilterValues();
     sources.push(this._inputValue);
 
